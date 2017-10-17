@@ -13,7 +13,7 @@ This document borrows concepts and guidelines heavily from:
 * [Service-Oriented Design with Ruby and Rails](http://www.amazon.com/Service-Oriented-Design-Addison-Wesley-Professional-Series/dp/0321659368)
 
 # Contributions
-API design is a team sport. We welcome contributions.
+API design is a team sport. We welcome [contributions](CONTRIBUTING.md).
 
 # Contents
 - [Introduction](#introduction)
