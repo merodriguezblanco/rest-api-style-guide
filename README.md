@@ -18,7 +18,12 @@ API design is a team sport. We welcome [contributions](CONTRIBUTING.md).
 # Contents
 - [Introduction](#introduction)
   - [REST](#rest)
-- Identifying REST Resources
+  - [REST APIs](#rest-apis)
+- [Identifying REST Resources](#identifying-rest-resources)
+  - [Resource Types](#resource-types)
+    - [Singleton resource](#singleton-resource)
+    - [Collection resource](#collection-resource)
+    - [Controller resource](#controller-resource)
 - Recipes
 
 ## Introduction
@@ -27,3 +32,57 @@ API design is a team sport. We welcome [contributions](CONTRIBUTING.md).
 [REST](http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm) stands for Representational State Transfer, and it is an architectural style for distributed hypermedia systems.
 
 A REST Application Programming Interface (REST API) is a type of web server that enables a client, either user-operated or automated, to access resources that model a system’s data and functions.
+
+### REST APIs
+Web clients use APIs to communicate with Web Services. An API exposes data and functions to facilitate interactions between computer programs and allow them to exchange information.
+
+The REST architectural style is commonly applied to the design of APIs for web services. A Web API conforming to the REST architectural style is a REST API, and it's said to be RESTful.
+
+A REST API consists of a set of interlinked resources. This set of resources is known as the REST API's resource model. A resource is an object with a certain type, associated data, relationships to other resources, and a set of methods that operate on it.
+
+This style guide exposes our conventions for identifying resources and how the API make use of them.
+
+## Identifying REST Resources
+
+### Resource Types
+There are 3 basic types of resources that can be defined:
+- Singleton resource
+- Collection resource
+- Controller resource
+
+TODO: Give example about merge resource.
+
+#### Singleton resource
+A singleton resource is akin to an object or a database record.
+
+For instance, the following URIs identify singleton resources:
+```
+https://my-domain.com/accounts/123
+https://my-domain.com/accounts/123/subaccounts/321
+```
+
+#### Collection resource
+A collection resource is a collection of other resources.
+If we were considering a collection of accounts, each account by itself
+is a singleton resource.
+
+For instance, the following URIs identify collection resources:
+```
+https://my-domain.com/accounts
+https://my-domain.com/accounts/123/subaccounts
+```
+
+#### Controller resource
+Controller resources model procedural concepts, similar to executable
+functions in the programming world.
+
+Usually in REST design, these kind of resources are the ones that cannot
+be mapped to standard CRUD methods.
+
+The name chosen for a controller resource typically appears as the last segment in a URI path, with no child
+resources to follow them in the hierarchy. The following example shows a controller resource
+that allows a client to resend an invoice.
+
+```
+POST https://my-domain.com/invoices/123/resend
+```
