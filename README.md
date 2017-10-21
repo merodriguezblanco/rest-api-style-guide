@@ -24,6 +24,8 @@ API design is a team sport. We welcome [contributions](CONTRIBUTING.md).
     - [Singleton resource](#singleton-resource)
     - [Collection resource](#collection-resource)
     - [Controller resource](#controller-resource)
+  - [Resource addressability](#resource-addressability)
+  - [Resource representation](#resource-representation)
 - Recipes
 
 # Introduction
@@ -87,3 +89,27 @@ that allows a client to resend an invoice.
 ```
 POST https://my-domain.com/invoices/123/resend
 ```
+
+## Resource addressability
+Every resource needs a way to be referenced (or addressed). Uniform
+Resource Identifiers (URIs) provide a way of doing this.
+
+For instance, a URI that addresses an account resource could be:
+
+```
+https://my-domain.com/accounts/123
+```
+
+Each resource MUST have at least one URI that will identify it and
+provide a way of addressing it. Keep in mind that a resource could be
+referenced by more than more URI, but we encourage not to do this
+unless it is really necessary.
+
+## Resource Representation
+Resources need a way to be represented. A representation is just the
+stream of bytes that exposes the resource.
+
+We say that a representation is at the same time the format that the
+resource can take, and resources can have more than one representation.
+For instance, text, HTML, JSON, XML, JPG, etc, or a custom format
+defined by us.
