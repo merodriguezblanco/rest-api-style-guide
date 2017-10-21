@@ -29,7 +29,7 @@ API design is a team sport. We welcome [contributions](CONTRIBUTING.md).
 ## Introduction
 
 ### REST
-[REST](http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm) stands for Representational State Transfer, and it is an architectural style for distributed hypermedia systems.
+[REST](http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm) stands for Representational State Transfer, and it is an architectural style for distributed hypermedia systems. Ir was described by Roy Fielding in 2000 in his doctoral dissertation.
 
 A REST Application Programming Interface (REST API) is a type of web server that enables a client, either user-operated or automated, to access resources that model a system’s data and functions.
 
@@ -43,6 +43,7 @@ A REST API consists of a set of interlinked resources. This set of resources is 
 This style guide exposes our conventions for identifying resources and how the API make use of them.
 
 ## Identifying REST Resources
+Resources are the heart of the design of services. At the most basic level, a resource is an object that represents something that could map to a record in the database, a file, a searh result, or even a procedure.
 
 ### Resource Types
 There are 3 basic types of resources that can be defined:
