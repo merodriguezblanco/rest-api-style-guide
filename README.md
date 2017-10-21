@@ -26,14 +26,14 @@ API design is a team sport. We welcome [contributions](CONTRIBUTING.md).
     - [Controller resource](#controller-resource)
 - Recipes
 
-## Introduction
+# Introduction
 
-### REST
+## REST
 [REST](http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm) stands for Representational State Transfer, and it is an architectural style for distributed hypermedia systems. Ir was described by Roy Fielding in 2000 in his doctoral dissertation.
 
 A REST Application Programming Interface (REST API) is a type of web server that enables a client, either user-operated or automated, to access resources that model a system’s data and functions.
 
-### REST APIs
+## REST APIs
 Web clients use APIs to communicate with Web Services. An API exposes data and functions to facilitate interactions between computer programs and allow them to exchange information.
 
 The REST architectural style is commonly applied to the design of APIs for web services. A Web API conforming to the REST architectural style is a REST API, and it's said to be RESTful.
@@ -42,10 +42,10 @@ A REST API consists of a set of interlinked resources. This set of resources is 
 
 This style guide exposes our conventions for identifying resources and how the API make use of them.
 
-## Identifying REST Resources
+# Identifying REST Resources
 Resources are the heart of the design of services. At the most basic level, a resource is an object that represents something that could map to a record in the database, a file, a searh result, or even a procedure.
 
-### Resource Types
+## Resource Types
 There are 3 basic types of resources that can be defined:
 - Singleton resource
 - Collection resource
@@ -53,7 +53,7 @@ There are 3 basic types of resources that can be defined:
 
 TODO: Give example about merge resource.
 
-#### Singleton resource
+### Singleton resource
 A singleton resource is akin to an object or a database record.
 
 For instance, the following URIs identify singleton resources:
@@ -62,7 +62,7 @@ https://my-domain.com/accounts/123
 https://my-domain.com/accounts/123/subaccounts/321
 ```
 
-#### Collection resource
+### Collection resource
 A collection resource is a collection of other resources.
 If we were considering a collection of accounts, each account by itself
 is a singleton resource.
@@ -73,7 +73,7 @@ https://my-domain.com/accounts
 https://my-domain.com/accounts/123/subaccounts
 ```
 
-#### Controller resource
+### Controller resource
 Controller resources model procedural concepts, similar to executable
 functions in the programming world.
 
