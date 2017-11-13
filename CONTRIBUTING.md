@@ -1,6 +1,6 @@
 # Contributing
 
-We welcome contributions to this guide and discussion about its contents. Please [open an issue](https://github.com/merodriguezblanco/rest-api-style-guide/issues/issues/new) or create a pull request on this repository to propose a change.
+We welcome contributions to this guide and discussion about its contents. Please [open an issue](https://github.com/merodriguezblanco/rest-api-style-guide/issues/new) or create a pull request on this repository to propose a change.
 
 ## Creating a pull request
 1. Fork it
