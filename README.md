@@ -243,8 +243,7 @@ Status Code | Meaning | Description
 403 | Forbidden | The request failed because the client did not have authorization for the requested resource.
 404 | Not Found | The request failed because the resource does not exist.
 409 | Conflict | The request failed because of an edit conflict.
-422 | Unprocessable Entity | The request failed because it contained invalid parameteters. As opposed to 400 status code, 422 is returned when no format errors are present but a semantic error is present
-(e.g.: validation errors).
+422 | Unprocessable Entity | The request failed because it contained invalid parameteters. As opposed to 400 status code, 422 is returned when no format errors are present but a semantic error is present (e.g.: validation errors).
 500 | Internal Server Error | Something went wrong on the server.
 
 ### Response Body
