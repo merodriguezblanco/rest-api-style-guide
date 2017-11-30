@@ -47,6 +47,7 @@ API design is a team sport. We welcome [contributions](CONTRIBUTING.md).
 - [Recipes](#recipes)
   - [Filtering Resources](#filtering-resources)
   - [Paginating Resources](#paginating-resources)
+  - [Sorting Resources](#sorting-resources)
 
 # Introduction
 
@@ -556,6 +557,38 @@ Available values for `rel`:
 | `prev`  | Previous page's URI |
 | `next` | Next page's URI |
 | `last` | Last page's URI |
+
+
+## Sorting Resources
+`sort` and `sort_direction` are options for sorting resources. `sort` should be an attribute on the resource and `sort_direction` accepts `asc` or `desc`.
+
+```
+Request: GET /accounts?sort=name&sort_directio=asc
+
+Response: 200 OK
+Body:
+[
+  {
+    "id": 100,
+    "name": "Amazon",
+    "created_at": "2017-01-01T12:00:00Z",
+    "updated_at": "2017-01-01T12:00:00Z"
+  },
+  {
+    "id": 123,
+    "name": "Coke",
+    "created_at": "2017-01-01T12:00:00Z",
+    "updated_at": "2017-01-01T12:00:00Z"
+  },
+  ...
+  {
+    "id": 432,
+    "name": "Zoho",
+    "created_at": "2017-01-01T12:00:00Z",
+    "updated_at": "2017-01-01T12:00:00Z"
+  }
+]
+```
 
 
 # TODOs
