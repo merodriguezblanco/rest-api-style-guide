@@ -42,7 +42,7 @@ API design is a team sport. We welcome [contributions](CONTRIBUTING.md).
 - Security
   - Authentication
   - Authorization
-- API Documentation
+- [API Documentation](#api-documentation)
 - Recipes
 
 # Introduction
@@ -332,6 +332,19 @@ Body:
 
 We encourage to return validation errors in a JSON that contains a key
 for each attribute name, and an array of error messages for its value.
+
+# API Documentation
+API documentation is important. It explains to the clients what resources and endpoints the API is exposing, and how to consume them.
+At the same time, it's a concise reference manual containing all the information required to work with the API.
+
+[Swagger](https://swagger.io/specification/) is the standard for documenting the APIs.
+A Swagger JSON file should be exposed by each API, describing its behaviour and all of its endpoints.
+
+Swagger's specification states that by convention, the Swagger file is named `swagger.json`.
+
+```
+GET https://my-domain.com/v1/swagger.json
+```
 
 # TODOs
 - Give example about merge resource.
