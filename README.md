@@ -39,9 +39,9 @@ API design is a team sport. We welcome [contributions](CONTRIBUTING.md).
     - [Response Body](#response-body)
 - Load Balancing
 - Caching
-- Security
-  - Authentication
-  - Authorization
+- [Security](#security)
+  - [Authentication](#authentication)
+  - [Authorization](#authorization)
 - [API Documentation](#api-documentation)
 - Recipes
 
@@ -333,6 +333,20 @@ Body:
 We encourage to return validation errors in a JSON that contains a key
 for each attribute name, and an array of error messages for its value.
 
+# Security
+To properly secure our APIs, we encourage you to implement Authentication and Authorization.
+
+## Authentication
+Authentication refers to verifying that the client is who she says she is and that no one has tampered with her message.
+
+When a request fails because the client is not authenticated the status `401 Unauthorized` should be returned.
+
+## Authorization
+Authorization refers to determining what a given client is allowed to do on the system.
+
+When a request fails because the client does not have access to a specific resource, the status `403 Forbidden` should be returned.
+
+
 # API Documentation
 API documentation is important. It explains to the clients what resources and endpoints the API is exposing, and how to consume them.
 At the same time, it's a concise reference manual containing all the information required to work with the API.
@@ -350,8 +364,5 @@ GET https://my-domain.com/v1/swagger.json
 - Give example about merge resource.
 - Load Balancing
 - Caching
-- Security
-  - Authentication
-  - Authorization
-- API Documentation
+- Enhance Security section
 - Recipes
