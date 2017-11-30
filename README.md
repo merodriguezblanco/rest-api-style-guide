@@ -44,7 +44,8 @@ API design is a team sport. We welcome [contributions](CONTRIBUTING.md).
   - [Authentication](#authentication)
   - [Authorization](#authorization)
 - [API Documentation](#api-documentation)
-- Recipes
+- [Recipes](#recipes)
+  - [Filtering Resources](#filtering-resources)
 
 # Introduction
 
@@ -169,10 +170,10 @@ Each of these checks can pass (response status `200`) or fail (response status `
 It's possible to define custom checks in case needed.
 
 ```http
-GET https://my-domain.com/health/database.json
+Request: GET https://my-domain.com/health/database.json
 
-HTTP/1.1 200 OK
-
+Response: 200 OK
+Body:
 {
   "database": {
     "message": "Schema version: 20160317201558",
@@ -183,10 +184,10 @@ HTTP/1.1 200 OK
 ```
 
 ```http
-GET https://my-domain.com/health/redis.json
+Request: GET https://my-domain.com/health/redis.json
 
-HTTP/1.1 500 INTERNAL SERVER ERROR
-
+Response: 500 Internal Server Error
+Body:
 {
   "redis": {
     "message": "Error: 'getaddrinfo: nodename nor servname provided, or not known'",
@@ -200,10 +201,10 @@ There is also the possibility to check them all, getting a response with the sum
 This endpoint will respond with status `200` if all checks pass.
 
 ```http
-GET https://my-domain.com/health/all.json
+Request: GET https://my-domain.com/health/all.json
 
-HTTP/1.1 500 INTERNAL SERVER ERROR
-
+Response: 500 Internal Server Error
+Body:
 {
   "default": {
     "message": "Application is running",
@@ -433,6 +434,52 @@ Swagger's specification states that by convention, the Swagger file is named `sw
 ```
 GET https://my-domain.com/v1/swagger.json
 ```
+
+# Recipes
+The following recipes are meant to help with day-to-day design and implementation questions involving REST. They should not be taken as
+gospel but rather guide your discussions in solving real-world problems.
+
+## Filtering Resources
+Complex searches may require a DSL definition in order to make filtering.
+When dealing with simple filterings, we can take advantage of the query params to filter a resource by its attributes.
+
+```
+Request: GET /accounts?name=Coke
+
+Response: 200 OK
+Body:
+[
+  {
+    "id": 123,
+    "name": "Coke",
+    "created_at": "2017-01-01T12:00:00Z",
+    "updated_at": "2017-01-01T12:00:00Z"
+  }
+]
+```
+
+We could do the same for nested resources:
+
+```
+Request: GET /accounts?name=Coke&primary_contact[email]=john@doe.com
+
+Response: 200 OK
+Body:
+[
+  {
+    "id": 123,
+    "name": "Coke",
+    "primary_contact": {
+      "first_name": "John",
+      "last_name": "Doe",
+      "email": "john@doe.com"
+    },
+    "created_at": "2017-01-01T12:00:00Z",
+    "updated_at": "2017-01-01T12:00:00Z"
+  }
+]
+```
+
 
 # TODOs
 - Give example about merge resource.
