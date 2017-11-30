@@ -46,6 +46,7 @@ API design is a team sport. We welcome [contributions](CONTRIBUTING.md).
 - [API Documentation](#api-documentation)
 - [Recipes](#recipes)
   - [Filtering Resources](#filtering-resources)
+  - [Paginating Resources](#paginating-resources)
 
 # Introduction
 
@@ -330,7 +331,7 @@ resources by default:
 ```json
 {
   "id": 123,
-  ...
+  // ...
   "created_at": "2017-01-01T12:00:00Z",
   "updated_at": "2017-01-01T12:00:00Z"
 }
@@ -373,7 +374,7 @@ Body:
     "created_at": "2017-01-01T12:00:00Z",
     "updated_at": "2017-01-01T12:00:00Z"
   },
-  ...
+  // ...
   {
     "id": 900,
     "name": "GM",
@@ -479,6 +480,82 @@ Body:
   }
 ]
 ```
+
+## Paginating Resources
+Collection resources should be paginated to avoid big responses, and make them easier to handle.
+Requests are paginated using the `page` parameter. Omitting this parameter will return the first page.
+
+```
+Request: GET /accounts?page=2
+
+Response: 200 OK
+Body:
+[
+  {
+    "id": 123,
+    "name": "Coke",
+    "created_at": "2017-01-01T12:00:00Z",
+    "updated_at": "2017-01-01T12:00:00Z"
+  },
+  // ...
+  {
+    "id": 222,
+    "name": "Cars Inc",
+    "created_at": "2017-01-01T12:00:00Z",
+    "updated_at": "2017-01-01T12:00:00Z"
+  }
+]
+```
+
+We can control how many items are returned with each page using the `per_page` parameter.
+We also suggest to give this parameter a default value.
+
+```
+Request: GET /accounts?page=2&per_page=2
+
+Response: 200 OK
+Body:
+[
+  {
+    "id": 123,
+    "name": "Coke",
+    "created_at": "2017-01-01T12:00:00Z",
+    "updated_at": "2017-01-01T12:00:00Z"
+  },
+  {
+    "id": 124,
+    "name": "Beds Inc",
+    "created_at": "2017-01-01T12:00:00Z",
+    "updated_at": "2017-01-01T12:00:00Z"
+  }
+]
+```
+
+### Link Header
+Pagination info is included in the [Link Header](https://tools.ietf.org/html/rfc5988). It's important for consumers to follow these headers rather than construct their own URIs. Other information like `total count` and `per page` can be helpful for client applications.
+
+```
+Request: GET /accounts?page=2
+
+Response headers:
+...
+Link: <https://my-domain.com/accounts?page=1>; rel="first",
+      <https://my-domain.com/accounts?page=1>; rel="prev",
+      <https://my-domain.com/accounts?page=3>; rel="next",
+      <https://my-domain.com/accounts?page=4>; rel="last"
+X-Total-Count: 100
+X-Total-Pages: 4
+X-Per-Page: 25
+X-Page: 2
+```
+
+Available values for `rel`:
+| Name | Description |
+|------|-------------|
+| `first` | First page's URI |
+| `prev`  | Previous page's URI |
+| `next` | Next page's URI |
+| `last` | Last page's URI |
 
 
 # TODOs
