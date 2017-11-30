@@ -1,4 +1,6 @@
-# Overview
+# REST API Style Guide
+
+## Overview
 This document is intended to provide guidelines and examples used across the partition of a big monolithic app into separate micro-services using [REST](http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm).
 
 The concepts explained here are not tied to any technology or framework in particular (rails, JS, C#, etc) and are the result of our learnings while working on this awesome project.
@@ -12,10 +14,10 @@ This document borrows concepts and guidelines heavily from:
 * [Heroku API Style Guide](https://github.com/interagent/http-api-design)
 * [Service-Oriented Design with Ruby and Rails](http://www.amazon.com/Service-Oriented-Design-Addison-Wesley-Professional-Series/dp/0321659368)
 
-# Contributions
+## Contributions
 API design is a team sport. We welcome [contributions](CONTRIBUTING.md).
 
-# Contents
+## Contents
 - [Introduction](#introduction)
   - [REST](#rest)
   - [REST APIs](#rest-apis)
@@ -49,14 +51,14 @@ API design is a team sport. We welcome [contributions](CONTRIBUTING.md).
   - [Paginating Resources](#paginating-resources)
   - [Sorting Resources](#sorting-resources)
 
-# Introduction
+## Introduction
 
-## REST
+### REST
 [REST](http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm) stands for Representational State Transfer, and it is an architectural style for distributed hypermedia systems. Ir was described by Roy Fielding in 2000 in his doctoral dissertation.
 
 A REST Application Programming Interface (REST API) is a type of web server that enables a client, either user-operated or automated, to access resources that model a system’s data and functions.
 
-## REST APIs
+### REST APIs
 Web clients use APIs to communicate with Web Services. An API exposes data and functions to facilitate interactions between computer programs and allow them to exchange information.
 
 The REST architectural style is commonly applied to the design of APIs for web services. A Web API conforming to the REST architectural style is a REST API, and it's said to be RESTful.
@@ -65,10 +67,10 @@ A REST API consists of a set of interlinked resources. This set of resources is 
 
 This style guide exposes our conventions for identifying resources and how the API make use of them.
 
-# Identifying REST Resources
+## Identifying REST Resources
 Resources are the heart of the design of services. At the most basic level, a resource is an object that represents something that could map to a record in the database, a file, a searh result, or even a procedure.
 
-## Resource Types
+### Resource Types
 There are 3 basic types of resources that can be defined:
 - Singleton resource
 - Collection resource
@@ -83,7 +85,7 @@ https://my-domain.com/accounts/123
 https://my-domain.com/accounts/123/subaccounts/321
 ```
 
-### Collection resource
+#### Collection resource
 A collection resource is a collection of other resources.
 If we were considering a collection of accounts, each account by itself
 is a singleton resource.
@@ -94,7 +96,7 @@ https://my-domain.com/accounts
 https://my-domain.com/accounts/123/subaccounts
 ```
 
-### Controller resource
+#### Controller resource
 Controller resources model procedural concepts, similar to executable
 functions in the programming world.
 
@@ -109,7 +111,7 @@ that allows a client to resend an invoice.
 POST https://my-domain.com/invoices/123/resend
 ```
 
-## Resource addressability
+### Resource addressability
 Every resource needs a way to be referenced (or addressed). Uniform
 Resource Identifiers (URIs) provide a way of doing this.
 
@@ -124,7 +126,7 @@ provide a way of addressing it. Keep in mind that a resource could be
 referenced by more than more URI, but we encourage not to do this
 unless it is really necessary.
 
-## Resource Representation
+### Resource Representation
 Resources need a way to be represented. A representation is just the
 stream of bytes that exposes the resource.
 
@@ -133,11 +135,11 @@ resource can take, and resources can have more than one representation.
 For instance, text, HTML, JSON, XML, JPG, etc, or a custom format
 defined by us.
 
-# API Design
+## API Design
 
-## Foundations
+### Foundations
 
-### Include versions in URIs
+#### Include versions in URIs
 Remember than an API is a contract between a publisher and a developer. To prevent surprise and breaking changes to users, it's best to require a version be specified in the URI of each request.
 
 We suggest including the version information in the URI of every service request. As always, there are trade-offs. Other API designers prefer a more RESTful approach by using the `Accept` HTTP header to specify the version.
@@ -152,13 +154,13 @@ API versions should not change often. But when they do it,they should change the
 https://my-domain.com/api/v2/accounts
 ```
 
-### Provide request ids for introspection
+#### Provide request ids for introspection
 We suggest API designers to trace HTTP requests all the way from the
 client to the backend. This can be done by including a custom `X-Request-Id` HTTP header in each API response, populated with a Universally Unique IDentifier (UUID) value. By logging these values on the client, server and any backing APIs, this provides a mechanism to trace, diagnose and debug requests.
 
 As this ID is randomly generated by the client, it does not contain any sensitive information, and should thus not violate the user's privacy. At the same time, this does not help with tracking clients because the ID is created per request and not per client.
 
-### Healthchecks
+#### Healthchecks
 Sometimes a service instance can be incapable of handling requests yet still be running. For instance, it might have ran out of DB connections. When this occurs, the monitoring system should generate a alert.
 
 In order to detect that a running service is unable to handle requests, we should provide healthcheck endpoints.
@@ -231,11 +233,11 @@ Body:
 }
 ```
 
-## Partitioning functionality into APIs
+### Partitioning functionality into APIs
 
-## Requests
+### Requests
 
-### URI paths
+#### URI paths
 URIs identify REST resources, they are the public interface of a
 API. Well-designed URI patterns make an API easy to consume, discover
 and extend.
@@ -261,7 +263,7 @@ GET /accounts/123/subaccounts/321  # :)
 GET /accounts/123/subaccounts/321/invoices  # :(
 ```
 
-### HTTP Verbs
+#### HTTP Verbs
 The Uniform Interface is a big constraint at the time of implementing a
 REST API. It's goal is to make the interaction between components as
 simple as possible.
@@ -292,9 +294,9 @@ PUT | /accounts/123 | Update account 123 | No | Yes
 PATCH | /accounts/123 | Partial update account 123 | No | Yes
 DELETE | /accounts/123 | Delete account 123 | No | No
 
-## Responses
+### Responses
 
-### HTTP Status Codes
+#### HTTP Status Codes
 HTTP provides three-digit integer status codes to specify the status of a response. RESTful APIs make use of these status code to reflect the outcome of the API response:
 
 Status Code | Description
@@ -323,16 +325,16 @@ Status Code | Meaning | Description
 422 | Unprocessable Entity | The request failed because it contained invalid parameteters. As opposed to 400 status code, 422 is returned when no format errors are present but a semantic error is present (e.g.: validation errors).
 500 | Internal Server Error | Something went wrong on the server.
 
-### Response Body
+#### Response Body
 
-#### Timestamps for resources
+##### Timestamps for resources
 We encourage providing `created_at` and `updated_at` timestamps for
 resources by default:
 
-```json
+```
 {
   "id": 123,
-  // ...
+  ...
   "created_at": "2017-01-01T12:00:00Z",
   "updated_at": "2017-01-01T12:00:00Z"
 }
@@ -341,7 +343,7 @@ resources by default:
 The timestamps should be formatted in
 [ISO8601](https://www.iso.org/iso-8601-date-and-time-format.html).
 
-#### Successful Response Bodies
+##### Successful Response Bodies
 By default, response bodies hold the actual resource data (the
 resource's representation). It must have a valid format, and we suggest
 using JSON in case your client is the browser.
@@ -375,7 +377,7 @@ Body:
     "created_at": "2017-01-01T12:00:00Z",
     "updated_at": "2017-01-01T12:00:00Z"
   },
-  // ...
+  ...
   {
     "id": 900,
     "name": "GM",
@@ -385,7 +387,7 @@ Body:
 ]
 ```
 
-#### Error Response Bodies
+##### Error Response Bodies
 The response body for error conditions must be simple and self
 explanatory.
 
@@ -410,21 +412,21 @@ Body:
 We encourage to return validation errors in a JSON that contains a key
 for each attribute name, and an array of error messages for its value.
 
-# Security
+## Security
 To properly secure our APIs, we encourage you to implement Authentication and Authorization.
 
-## Authentication
+### Authentication
 Authentication refers to verifying that the client is who she says she is and that no one has tampered with her message.
 
 When a request fails because the client is not authenticated the status `401` (`Unauthorized`) should be returned.
 
-## Authorization
+### Authorization
 Authorization refers to determining what a given client is allowed to do on the system.
 
 When a request fails because the client does not have access to a specific resource, the status `403` (`Forbidden`) should be returned.
 
 
-# API Documentation
+## API Documentation
 API documentation is important. It explains to the clients what resources and endpoints the API is exposing, and how to consume them.
 At the same time, it's a concise reference manual containing all the information required to work with the API.
 
@@ -437,11 +439,11 @@ Swagger's specification states that by convention, the Swagger file is named `sw
 GET https://my-domain.com/v1/swagger.json
 ```
 
-# Recipes
+## Recipes
 The following recipes are meant to help with day-to-day design and implementation questions involving REST. They should not be taken as
 gospel but rather guide your discussions in solving real-world problems.
 
-## Filtering Resources
+### Filtering Resources
 Complex searches may require a DSL definition in order to make filtering.
 When dealing with simple filterings, we can take advantage of the query params to filter a resource by its attributes.
 
@@ -482,7 +484,7 @@ Body:
 ]
 ```
 
-## Paginating Resources
+### Paginating Resources
 Collection resources should be paginated to avoid big responses, and make them easier to handle.
 Requests are paginated using the `page` parameter. Omitting this parameter will return the first page.
 
@@ -498,7 +500,7 @@ Body:
     "created_at": "2017-01-01T12:00:00Z",
     "updated_at": "2017-01-01T12:00:00Z"
   },
-  // ...
+  ...
   {
     "id": 222,
     "name": "Cars Inc",
@@ -532,7 +534,7 @@ Body:
 ]
 ```
 
-### Link Header
+#### Link Header
 Pagination info is included in the [Link Header](https://tools.ietf.org/html/rfc5988). It's important for consumers to follow these headers rather than construct their own URIs. Other information like `total count` and `per page` can be helpful for client applications.
 
 ```
@@ -559,7 +561,7 @@ Available values for `rel`:
 | `last` | Last page's URI |
 
 
-## Sorting Resources
+### Sorting Resources
 `sort` and `sort_direction` are options for sorting resources. `sort` should be an attribute on the resource and `sort_direction` accepts `asc` or `desc`.
 
 ```
@@ -591,7 +593,7 @@ Body:
 ```
 
 
-# TODOs
+## TODOs
 - Give example about merge resource.
 - Load Balancing
 - Caching
