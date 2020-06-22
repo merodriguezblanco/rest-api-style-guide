@@ -79,10 +79,10 @@ There are 3 basic types of resources that can be defined:
 ### Singleton resource
 A singleton resource is akin to an object or a database record.
 
-For instance, the following URIs identify singleton resources:
+For instance, the following URI identify singleton resources:
 ```
-https://my-domain.com/accounts/123
-https://my-domain.com/accounts/123/subaccounts/321
+https://my-domain.com/accounts/123/contact
+https://my-domain.com/accounts/123/profile
 ```
 
 #### Collection resource
